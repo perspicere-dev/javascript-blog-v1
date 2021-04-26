@@ -271,6 +271,9 @@ addClickListenersToTags();
 
 
 function generateAuthors(){
+  /* [NEW] create a new variable allAuthors with an empty object */
+  let allAuthors = {};
+
   /* [DONE] find all articles */
   const articles = document.querySelectorAll(optArticleSelector);
   console.log('articles', articles);
@@ -289,6 +292,14 @@ function generateAuthors(){
     const articleAuthor = article.getAttribute('data-author');
     console.log('articleAuthor', articleAuthor);
 
+    /* [NEW] check if this link is NOT already in allAuthors */
+      if(!allAuthors[articleAuthor]) {
+    /* [NEW] add tag to allTags object */
+      allAuthors[articleAuthor] = 1;
+    } else {
+      allAuthors[articleAuthor]++;
+    }
+    console.log('allAuthors', allAuthors);
 
     /* generate HTML of the link */
     const linkHTML = '<a href="#author-' + articleAuthor + '">by ' + articleAuthor+ '</a>';
@@ -297,13 +308,29 @@ function generateAuthors(){
     /* add generated code to html variable */
     html = html + linkHTML;
 
-
     /* insert HTML of all the links into the tags wrapper */
     authorsWrapper.innerHTML = html;
     console.log('authorsWrapperr HTML: ', html)
 
   /* END LOOP: for every article: */
   }
+  /* [NEW] [DONE] find list of authors in right column */
+  const authorsList = document.querySelector(optAuthorsListSelector);
+  console.log('authorsList', authorsList);
+
+  /* [NEW][DONE] create variable for all authors HTML code */
+  let allAuthorsHTML = '';
+
+  /* [NEW] START LOOP: for each author in allAuthors: */
+  for(let author in allAuthors){
+  /* [NEW] generate code of a link and add it to allTagsHTML */
+  allAuthorsHTML += '<li><a class="' + author + '" href="#author-' + author + '">' + author +  '(' + allAuthors[author] + ')</a></li>';
+  }
+/* [NEW] END LOOP: for each tag in allTags: */
+
+/*[NEW] add HTML from allTagsHTML to tagList */
+authorsList.innerHTML = allAuthorsHTML;
+
 }
 
 generateAuthors();
@@ -332,7 +359,7 @@ function authorClickHandler(event){
   for (let activeAuthor of activeAuthors){
 
     /* remove class active */
-    ctiveAuthor.classList.remove('active');
+    activeAuthor.classList.remove('active');
 
   /* END LOOP: for each active author link */
 }

@@ -6,8 +6,9 @@
 const templates = {
   articleLink: Handlebars.compile(document.querySelector('#template-article-link').innerHTML),
   articleTagLink: Handlebars.compile(document.querySelector('#template-articleTag-link').innerHTML),
-  //articleAuthorLink: Handlebars.compile(document.querySelector('#template-articleAuthor-link').innerHTML),
+  articleAuthorLink: Handlebars.compile(document.querySelector('#template-articleAuthor-link').innerHTML),
   tagCloudLink: Handlebars.compile(document.querySelector('#template-tagCloud-link').innerHTML),
+  authorListLink: Handlebars.compile(document.querySelector('#template-authorList-link').innerHTML)
 }
 
 const titleClickHandler = function(event) { //wyświetlanie artykułu po kliknięciu
@@ -340,19 +341,25 @@ function generateAuthors(){
   const authorsList = document.querySelector(optAuthorsListSelector);
   console.log('authorsList', authorsList);
 
-  /* [NEW][DONE] create variable for all authors HTML code */
-  let allAuthorsHTML = '';
+  /* Change for handlebars [NEW][DONE] create variable for all authors HTML code */
+  //let allAuthorsHTML = '';
+  const allAutorsData = {authors: []};
 
   /* [NEW] START LOOP: for each author in allAuthors: */
   for(let author in allAuthors){
-  /* [NEW] generate code of a link and add it to allTagsHTML */
-  allAuthorsHTML += '<li><a class="' + author + '" href="#author-' + author + '">' + author +  '(' + allAuthors[author] + ')</a></li>';
+  /* change for handlebars [NEW] generate code of a link and add it to allTagsHTML */
+  //allAuthorsHTML += '<li><a class="' + author + '" href="#author-' + author + '">' + author +  '(' + allAuthors[author] + ')</a></li>';
+
+  allAuthorsData.authors.push({
+    articleAuthor: Author,
+    count: allAuthors[articleAuthor],
+  });
   }
 /* [NEW] END LOOP: for each tag in allTags: */
 
-/*[NEW] add HTML from allTagsHTML to tagList */
-authorsList.innerHTML = allAuthorsHTML;
-
+/*[NEW] change for handlebars add HTML from allTagsHTML to tagList */
+//authorsList.innerHTML = allAuthorsHTML;
+authorList.innerHTML = templates.authorListLink(allAuthorsData);
 }
 
 generateAuthors();

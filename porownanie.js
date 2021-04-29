@@ -8,7 +8,7 @@ const templates = {
   articleTagLink: Handlebars.compile(document.querySelector('#template-articleTag-link').innerHTML),
   articleAuthorLink: Handlebars.compile(document.querySelector('#template-articleAuthor-link').innerHTML),
   tagCloudLink: Handlebars.compile(document.querySelector('#template-tagCloud-link').innerHTML),
-  authorListLink: Handlebars.compile(document.querySelector('#template-authorList-link').innerHTML)
+  //authorListLink: Handlebars.compile(document.querySelector('#template-authorList-link').innerHTML)
 }
 
 const titleClickHandler = function(event) { //wyświetlanie artykułu po kliknięciu
@@ -86,7 +86,6 @@ function generateTitleLinks(customSelector = ''){ // generowanie listy tytułow
 
     const linkHTMLData = {id: articleId, title: articleTitle};
     const linkHTML = templates.articleLink(linkHTMLData);
-    console.log('linkHTML po handlebars', linkHTML);
 
 
     /* insert link into titleList */
@@ -200,7 +199,6 @@ function generateTags(){
   /* [NEW] create variable for all links HTML code (handlebars change for const allTagsData)*/
   //let allTagsHTML = '';
   const allTagsData = {tags: []};
-  console.log('allTagsData from handlerbars', allTagsData );
 
   /* [NEW] START LOOP: for each tag in allTags: */
   for(let tag in allTags){
@@ -211,7 +209,7 @@ function generateTags(){
     /* [NEW] generate code of a link and add it to allTagsHTML - handlebars change*/
     //allTagsHTML += '<li><a class="' + tagLinkHTML + '" href="#tag-' + tag + '">' + tag +  '(' + allTags[tag] + ')</a></li>';
     allTagsData.tags.push({
-      dupa: tag,
+      tag: tag,
       count: allTags[tag],
       className: calculateTagClass(allTags[tag], tagsParams)
     });
@@ -344,25 +342,24 @@ function generateAuthors(){
   console.log('authorsList', authorsList);
 
   /* Change for handlebars [NEW][DONE] create variable for all authors HTML code */
-  //let allAuthorsHTML = '';
-  const allAuthorsData = {authors: []};
+  let allAuthorsHTML = '';
+  //const allAutorsData = {authors: []};
 
   /* [NEW] START LOOP: for each author in allAuthors: */
   for(let author in allAuthors){
   /* change for handlebars [NEW] generate code of a link and add it to allTagsHTML */
-  //allAuthorsHTML += '<li><a class="' + author + '" href="#author-' + author + '">' + author +  '(' + allAuthors[author] + ')</a></li>';
+  allAuthorsHTML += '<li><a class="' + author + '" href="#author-' + author + '">' + author +  '(' + allAuthors[author] + ')</a></li>';
 
-  allAuthorsData.authors.push({
-    author: author,
-    count: allAuthors[author],
-  });
+  // allAuthorsData.authors.push({
+  //   articleAuthor: Author,
+  //   count: allAuthors[articleAuthor],
+  // });
   }
 /* [NEW] END LOOP: for each tag in allTags: */
 
 /*[NEW] change for handlebars add HTML from allTagsHTML to tagList */
-//authorsList.innerHTML = allAuthorsHTML;
-//console.log('allAuthorsHTML are', allAuthorsHTML);
-authorsList.innerHTML = templates.authorListLink(allAuthorsData);
+authorsList.innerHTML = allAuthorsHTML;
+//authorList.innerHTML = templates.authorListLink(allAuthorsData);
 }
 
 generateAuthors();
